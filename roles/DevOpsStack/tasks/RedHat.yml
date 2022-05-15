@@ -1,0 +1,35 @@
+# tasks/RedHat.yml
+
+- name: "Install redhat packages"
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+  - "{{ extra_software}}"
+  - "httpd"
+
+- name: "create document root"
+  file:
+    path: "/var/www/{{ http_host_dir }}"
+    state: directory
+
+- name: "Copy source code"
+  copy:
+    src: "{{ source_code_loc }}"
+    dest: "/var/www/{{ http_host_dir }}"
+
+- name: "Copy the configuration file"
+  template:
+    src: "apache.conf.j2"
+    dest: "/etc/httpd/conf.d/{{ http_conf_file }}"
+  notify: "Restart Httpd"
+
+- name: Enable Httpd
+  service:
+    name: "httpd"
+    enabled: yes
+
+- name: start Httpd
+  service:
+    name: "httpd"
+    state: started

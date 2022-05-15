@@ -1,0 +1,40 @@
+# tasks/Debian.yml
+
+- name: "Install packages"
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+  - "apache2"
+  - "{{ extra_software }}"
+
+- name: "Create document root"
+  file:
+    path: "/var/www/{{ http_host_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: "Copy source code"
+  copy:
+    src: "{{ source_code_loc }}"
+    dest: "/var/www/{{ http_host_dir }}"
+
+- name: "Set up apache virtual host"
+  template:
+    src: "apache.conf.j2"
+    dest: "/etc/apache2/sites-available/{{ http_conf_file }}"
+
+- name: "Enable new site"
+  shell: /usr/sbin/a2ensite/{{ http_conf_file }}
+  notify: "Reload Apache"
+
+- name: "Disable default Apache site"
+  shell: /usr/sbin/a2dissite 000-default.conf
+  when: disable_default
+  notify: "Reload Apache"
+
+- name: "Enable Httpd"
+  service:
+    name: "apache2"
+    enabled: yes

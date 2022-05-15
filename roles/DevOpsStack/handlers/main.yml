@@ -1,0 +1,16 @@
+# handlers/main.yml
+
+- name: "Restart Httpd"
+  service:
+    name: "Httpd"
+    state: restarted
+
+- name: "Restart Apache2"
+  service:
+    name: "Apache2"
+    state: restarted
+
+- name: "Reload Httpd"
+  service:
+    name: "Apache2"
+    state: reloaded

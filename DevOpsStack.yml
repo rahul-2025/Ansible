@@ -1,0 +1,12 @@
+# http webserver
+---
+  - hosts: all
+
+    roles:
+      - role: devopsSTACK
+
+    tasks:
+      - name: check user
+        remote_user: ubuntu
+        become: yes
+        become_user: devops

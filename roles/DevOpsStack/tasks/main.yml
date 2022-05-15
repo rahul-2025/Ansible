@@ -1,0 +1,9 @@
+# tasks/main.yml
+
+- name: "Run for RedHat"
+  import_tasks: "ReHat.yml"
+  when: ansible_os_family == "RedHat"
+
+- name: "Run for Ubuntu"
+  import_tasks: "Ubuntu.yml"
+  when: ansible_os_family == "Ubuntu"

@@ -1,0 +1,18 @@
+# default/main.yml
+
+# extra software
+extra_software:
+  - vim
+  - git
+
+# document root directory
+http_host_dir: "HelloWorld"
+
+# configuration file
+http_conf_file: "helloworld.conf"
+
+#httpd port for webserver
+http_port: 8009
+
+# source code location to deploy
+souce_code_loc: "files/souce_code/"
